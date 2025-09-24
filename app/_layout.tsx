@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/contex/AuthContext";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -17,11 +18,13 @@ export default function RootLayout() {
     // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
     // </ThemeProvider>
     <>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+      <AuthProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
+          <Stack.Screen />
+        </Stack>
+        <StatusBar style="auto" />
+      </AuthProvider>
     </>
   );
 }

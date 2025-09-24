@@ -17,9 +17,9 @@ export default function InputText({
   hasError?: boolean;
   errorMessage?: string;
   maxLength?: number;
-  onChange?: () => void;
   editable?: boolean;
   placeholder: string;
+  onChange?: any;
 }) {
   return (
     <View style={styles.container}>
@@ -30,7 +30,7 @@ export default function InputText({
         value={value}
         maxLength={maxLength || undefined}
         editable={editable || true}
-        onChange={onChange}
+        onChangeText={onChange}
         placeholder={placeholder}
       />
     </View>
@@ -40,7 +40,6 @@ export default function InputText({
 const styles = StyleSheet.create({
   container: {
     gap: 10,
-    flex: 1,
   },
   text_input: {
     backgroundColor: StyleVariables.color.white_default,
