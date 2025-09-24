@@ -1,23 +1,27 @@
-import Login from "@/app/(auth)/login";
+import SignUp from "@/app/(auth)/signup";
 import BalanceCard from "@/components/ui/BalanceCard";
 import Shortcuts from "@/components/ui/Shortcuts";
 import TransactionsList from "@/components/ui/Transactions/TransactionsList";
 import { useAuth } from "@/contex/AuthContext";
 import { StyleVariables } from "@/utils/constants/Colors";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, StyleSheet } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated) return <Login />;
+  if (!isAuthenticated) return <SignUp />;
 
   return (
-    <SafeAreaView edges={["left", "right"]} style={styles.container}>
-      <BalanceCard />
-      <Shortcuts />
-      <TransactionsList />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView edges={["left", "right"]} style={styles.container}>
+        <ScrollView>
+          <BalanceCard />
+          <Shortcuts />
+          <TransactionsList />
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

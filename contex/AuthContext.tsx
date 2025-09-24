@@ -1,4 +1,5 @@
 import { auth, db } from "@/firebase/config";
+import { BankAccount } from "@/utils/interfaces/bank-account";
 import { UserData } from "@/utils/interfaces/user";
 import { router } from "expo-router";
 import {
@@ -11,7 +12,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 interface IAuthContextType {
   user: UserData | null;
   login: (email: string, password: string) => void;
-  signUp: (signUpBody: UserData) => void;
+  signUp: (signUpBody: UserData, bankAccBody: BankAccount) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const signUp = (signUpBody: UserData) => {
+  const signUp = (signUpBody: UserData, bankAccBody: BankAccount) => {
     createUserWithEmailAndPassword(auth, signUpBody.email, signUpBody.password)
       .then(async (response: any) => {
         console.log("AuthProvider :: SignUp - básico", response.user.uid);
@@ -52,9 +53,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           await addDoc(collection(db, "users"), {
             ...signUpBody,
             uid: response.user.uid,
-          }).then((res) => {
-            router.replace("/login");
-            console.log("AuthProvider :: SignUp - usuário cadastrado ", res);
+          }).then(async () => {
+            await addDoc(collection(db, "bank-accounts"), {
+              ...bankAccBody,
+              usuarioCpf: signUpBody.cpf,
+              uid: response.user.uid,
+            }).then((res) => {
+              router.replace("/login");
+              console.log("AuthProvider :: SignUp - usuário cadastrado: ", res);
+            });
           });
         } catch (error) {
           console.error("Erro ao criar usuário na Firebase. ", error);
