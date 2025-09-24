@@ -23,14 +23,14 @@ export interface ITed {
   tipo: TransacationTypes.TED;
   file?: any;
 }
-export interface IPix {
-  transId?: string;
+export class IPix {
+  // transId?: string;
   data?: string;
-  valor: number | null;
-  descricao: string;
-  chavePix: string;
-  destinatario: string; // nome
-  tipo: TransacationTypes.PIX;
+  valor?: number | null;
+  descricao?: string;
+  chavePix?: string;
+  destinatario?: string; // nome
+  tipo?: TransacationTypes.PIX;
   file?: any;
 }
 

@@ -1,16 +1,17 @@
-import { auth } from "@/firebase/config";
+import { auth, db } from "@/firebase/config";
+import { UserData } from "@/utils/interfaces/user";
 import { router } from "expo-router";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  UserCredential,
 } from "firebase/auth";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 interface IAuthContextType {
-  user: UserCredential | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  signUp: (email: string, password: string) => void;
+  user: UserData | null;
+  login: (email: string, password: string) => void;
+  signUp: (signUpBody: UserData) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -18,39 +19,46 @@ interface IAuthContextType {
 const AuthContext = createContext<IAuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserCredential | null>(null);
+  const [user, setUser] = useState<UserData | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const login = async (email: string, password: string) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      setUser(userCredential);
-      console.log(userCredential);
-      setIsAuthenticated(true);
-      router.replace("/");
-      console.log("AuthProvider :: [LOGIN] - login com sucesso ");
+      await signInWithEmailAndPassword(auth, email, password).then(async () => {
+        const q = query(collection(db, "users"), where("email", "==", email));
 
-      return true;
+        const querySnapshot = await getDocs(q);
+        let userData = null;
+
+        querySnapshot.forEach((doc) => {
+          userData = { ...doc.data() };
+          setUser(userData as UserData);
+        });
+
+        console.log("AuthProvider :: [LOGIN] - login com sucesso ", userData);
+        setIsAuthenticated(true);
+        router.replace("/");
+      });
     } catch (error) {
       console.log("AuthProvider :: [LOGIN] - falha no login ", error);
-      return false;
     }
   };
 
-  const signUp = (email: string, password: string) => {
-    // setUsers([...users, { email, password }]);
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        router.replace("/login");
-        console.log(
-          "AuthProvider :: SignUp - usuário cadastrado ",
-          email,
-          password
-        );
+  const signUp = (signUpBody: UserData) => {
+    createUserWithEmailAndPassword(auth, signUpBody.email, signUpBody.password)
+      .then(async (response: any) => {
+        console.log("AuthProvider :: SignUp - básico", response.user.uid);
+        try {
+          await addDoc(collection(db, "users"), {
+            ...signUpBody,
+            uid: response.user.uid,
+          }).then((res) => {
+            router.replace("/login");
+            console.log("AuthProvider :: SignUp - usuário cadastrado ", res);
+          });
+        } catch (error) {
+          console.error("Erro ao criar usuário na Firebase. ", error);
+        }
       })
       .catch((error) => {
         console.log("AuthProvider :: SignUp - falha no cadastro ", error);

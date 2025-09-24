@@ -12,7 +12,7 @@ export default function InputText({
   label,
   placeholder,
 }: {
-  value: string;
+  value?: string;
   label: string;
   hasError?: boolean;
   errorMessage?: string;
