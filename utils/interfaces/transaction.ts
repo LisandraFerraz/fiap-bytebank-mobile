@@ -24,13 +24,13 @@ export interface ITed {
   file?: any;
 }
 export class IPix {
-  // transId?: string;
+  transId?: string;
   data?: string;
   valor?: number | null;
   descricao?: string;
   chavePix?: string;
   destinatario?: string; // nome
-  tipo?: TransacationTypes.PIX;
+  tipo?: TransacationTypes.PIX = TransacationTypes.PIX;
   file?: any;
 }
 

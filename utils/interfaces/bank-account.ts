@@ -10,7 +10,7 @@ export class BankAccount {
   agencia: string = "";
   saldo: number = 0;
 
-  depositos?: IDeposito[];
-  transferencias?: ITed[] | IPix[];
-  historicoEmprestimos?: IEmprestimo[];
+  depositos: IDeposito[] = [];
+  transferencias: ITed[] | IPix[] = [];
+  historicoEmprestimos: IEmprestimo[] = [];
 }

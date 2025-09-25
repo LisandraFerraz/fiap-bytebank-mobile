@@ -22,6 +22,7 @@ export class UserData {
   password: string = "";
   birthDate: string = "";
   cpf: string = "";
+  uid: string = "";
 }
 
 export class BankAccountData {

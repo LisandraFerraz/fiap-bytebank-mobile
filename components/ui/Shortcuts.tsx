@@ -11,7 +11,7 @@ export default function Shortcuts() {
   const shortcuts: IShortcut[] = [
     {
       title: "PIX",
-      url: "/screens/sendPix",
+      url: "/screens/pix/sendPix",
     },
     {
       title: "TED",

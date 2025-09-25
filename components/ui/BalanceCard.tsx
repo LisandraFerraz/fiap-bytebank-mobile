@@ -1,3 +1,4 @@
+import { useAuth } from "@/contex/AuthContext";
 import { StyleVariables } from "@/utils/constants/Colors";
 import { useState } from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
@@ -5,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Divisor from "./Divisor";
 
 export default function BalanceCard() {
-  const userName = "Joana";
+  const { user } = useAuth();
 
   const [valueHidden, setValueHidden] = useState<boolean>(false);
 
@@ -19,7 +20,7 @@ export default function BalanceCard() {
         }}
       >
         <View style={styles.textCard}>
-          <Text style={styles.titleCard}>Olá, {userName}! :)</Text>
+          <Text style={styles.titleCard}>Olá, {user?.name}! :)</Text>
           <Divisor color="dark_green_default" />
           <Text
             style={{
