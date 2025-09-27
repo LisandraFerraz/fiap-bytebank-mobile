@@ -12,7 +12,7 @@ export default function InputText({
   label,
   placeholder,
 }: {
-  value?: string;
+  value?: any;
   label: string;
   hasError?: boolean;
   errorMessage?: string;
@@ -40,6 +40,7 @@ export default function InputText({
 const styles = StyleSheet.create({
   container: {
     gap: 10,
+    flex: 1,
   },
   text_input: {
     backgroundColor: StyleVariables.color.white_default,
@@ -48,6 +49,7 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 16,
     paddingHorizontal: 10,
+    width: "100%",
   },
   hasError: {
     borderWidth: 1,

@@ -1,3 +1,5 @@
+export type transacao = IDeposito | IEmprestimo | ITed | IPix;
+
 export enum TransacationTypes {
   DEPOSITO = "DEPOSITO",
   TED = "TED",

@@ -44,6 +44,8 @@ export const StyleVariables = {
     dark_green_default: "#004d61",
     dark_default: "#000000",
     white_default: "#fff",
+
+    dark_transparency: "#0000002e",
   },
   font: {
     text_lg: "1.5rem",

@@ -24,8 +24,9 @@ export const UsePix = () => {
   const updatePix = async (pixBody: IPix) => {
     getBankAccountData().then(async (bankAccInfo) => {
       try {
-        if (bankAccInfo === null)
+        if (bankAccInfo === null) {
           return console.error("updatePix :: bankAccInfo is NULL ");
+        }
 
         const bankData = bankAccInfo.data;
 

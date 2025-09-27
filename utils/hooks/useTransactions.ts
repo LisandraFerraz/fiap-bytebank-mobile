@@ -22,10 +22,7 @@ export const UseTransactions = () => {
         ...depositos,
       ];
 
-      console.log(
-        "UseTransactions :: listAllTransactions SUCESSO ",
-        transactionsList
-      );
+      console.log("UseTransactions :: listAllTransactions SUCESSO ");
       return transactionsList;
     } catch (error) {
       console.error("UseTransactions :: listAllTransactions ERROR ", error);

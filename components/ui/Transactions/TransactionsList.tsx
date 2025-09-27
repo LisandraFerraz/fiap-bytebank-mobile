@@ -1,11 +1,12 @@
-import EditTransacionModal from "@/app/screens/pix/updatePix";
+/* eslint-disable react-hooks/exhaustive-deps */
+import ModalTransactionDetails from "@/components/ModalTransacao/ModalDetails";
 import { ThemedText } from "@/components/ThemedText";
 import { StyleVariables } from "@/utils/constants/Colors";
 import { UseTransactions } from "@/utils/hooks/useTransactions";
 import { useNavigationState } from "@react-navigation/native";
 import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Divisor from "../Divisor";
 import Transaction from "./Transaction";
 
@@ -16,8 +17,9 @@ export default function TransactionsList() {
     (state) => state.routes[state.index].name
   );
 
-  const [isModalShown, setIsModalShown] = useState<boolean>(false);
+  const [isModalShown, setIsModalShown] = useState<boolean>(true);
   const [transactions, setTransactions] = useState<any[] | undefined>([]);
+  const [dataModal, setDataModal] = useState<any>();
 
   useEffect(() => {
     listAllTransactions().then((res) => {
@@ -37,6 +39,11 @@ export default function TransactionsList() {
     );
   };
 
+  const openModalEdit = (data: any) => {
+    setDataModal(data);
+    setIsModalShown(true);
+  };
+
   return (
     <>
       <View style={styles.content_container}>
@@ -49,7 +56,9 @@ export default function TransactionsList() {
             {transactions?.map((ts: any, index: any) => (
               <React.Fragment key={index}>
                 <View style={styles.cards_container}>
-                  <Transaction transaction={ts} />
+                  <Pressable onPress={() => openModalEdit(ts)}>
+                    <Transaction transaction={ts} />
+                  </Pressable>
                 </View>
                 <Divisor color="sogrey_faded" />
               </React.Fragment>
@@ -62,7 +71,17 @@ export default function TransactionsList() {
           </View>
         )}
       </View>
-      <EditTransacionModal data={{}} shown={isModalShown} />
+
+      {isModalShown && (
+        <ModalTransactionDetails
+          data={dataModal}
+          onClose={() => {
+            setIsModalShown(false);
+            setDataModal([]);
+          }}
+          shown={isModalShown}
+        />
+      )}
     </>
   );
 }
