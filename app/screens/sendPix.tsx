@@ -6,16 +6,16 @@ import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
 import { FormatDate } from "@/utils/functions/format-data";
 import { UsePix } from "@/utils/hooks/usePix";
-import { IPix } from "@/utils/interfaces/transaction";
+import { Pix } from "@/utils/interfaces/transaction";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 export default function SendPix() {
   const { sendPix } = UsePix();
 
-  const [pixBody, setPixBody] = useState<IPix>(new IPix());
+  const [pixBody, setPixBody] = useState<Pix>(new Pix());
 
-  const updateBody = (key: keyof IPix, value: string) => {
+  const updateBody = (key: keyof Pix, value: string) => {
     const dateToday = new Date();
 
     setPixBody({
@@ -32,7 +32,7 @@ export default function SendPix() {
 
   return (
     <>
-      <FormTemplate title="Enviar PIX ">
+      <FormTemplate title="Registrar PIX ">
         <View style={styles.container}>
           <View style={styles.row}>
             <InputText

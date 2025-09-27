@@ -1,44 +1,49 @@
 import "react-native-get-random-values";
 
 import Button from "@/components/ui/Button";
-import { UsePix } from "@/utils/hooks/usePix";
-import { IPix } from "@/utils/interfaces/transaction";
+import InputText from "@/components/ui/InputText";
+import { useLoan } from "@/utils/hooks/useLoan";
+import { Loan } from "@/utils/interfaces/transaction";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { updateBody } from "./utils/update-body-func";
 
-export default function EditEmprestimoForm({
+export default function EditLoanForm({
   data,
   newFile,
 }: {
-  data: IPix;
+  data: Loan;
   newFile: any;
 }) {
-  const { updatePix } = UsePix();
+  const { updateLoan } = useLoan();
 
-  const [emprestimoBody, setEmprestimoBody] = useState<IPix>(data);
-
-  //   const updateBody = (key: keyof IPix, value: string) => {
-  //     setEmprestimoBody({
-  //       ...data,
-  //       [key]: key === "valor" ? Number(value) : value,
-  //     });
-  //   };
+  const [loanBody, setLoanBody] = useState<Loan>(data);
 
   const sendUpdatedPix = () => {
-    updatePix(emprestimoBody);
+    updateLoan(loanBody);
   };
 
   return (
     <>
       <View style={styles.container}>
         <View style={styles.row}>
-          {/* <InputText
+          <InputText
             label="valor"
             placeholder="R$ 0"
             editable={true}
-            onChange={(e: any) => updateBody(data, "valor", e, setEmprestimoBody)}
-            value={emprestimoBody?.valor}
-          /> */}
+            onChange={(e: any) => updateBody(data, "valor", e, setLoanBody)}
+            value={loanBody?.valor}
+          />
+          <View style={styles.row}>
+            <InputText
+              label="valor pago"
+              placeholder="R$ 0"
+              editable={true}
+              onChange={(e: any) =>
+                updateBody(loanBody, "valorPago", e, setLoanBody)
+              }
+            />
+          </View>
         </View>
       </View>
       <View style={[styles.row, styles.row_button]}>

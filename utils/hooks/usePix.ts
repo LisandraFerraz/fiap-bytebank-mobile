@@ -1,11 +1,11 @@
 import { arrayUnion, updateDoc } from "firebase/firestore";
-import { IPix } from "../interfaces/transaction";
+import { Pix } from "../interfaces/transaction";
 import { UseBank } from "./useBank";
 
 export const UsePix = () => {
   const { getBankAccountData } = UseBank();
 
-  const sendPix = async (pixBody: IPix) => {
+  const sendPix = async (pixBody: Pix) => {
     getBankAccountData().then(async (bankAccInfo) => {
       try {
         if (bankAccInfo === null)
@@ -21,7 +21,7 @@ export const UsePix = () => {
     });
   };
 
-  const updatePix = async (pixBody: IPix) => {
+  const updatePix = async (pixBody: Pix) => {
     getBankAccountData().then(async (bankAccInfo) => {
       try {
         if (bankAccInfo === null) {
@@ -35,7 +35,7 @@ export const UsePix = () => {
         );
 
         await updateDoc(bankAccInfo.ref, { transferencias: updatedTrans });
-        console.log("updatePix :: SUCESSO ");
+        console.log("updatePix :: SUCCESS ");
       } catch (error) {
         console.error("updatePix :: CATCH ERROR ", error);
       }

@@ -1,10 +1,9 @@
 import EditPixForm from "@/components/ModalTransacao/transaction-forms/editPix";
 import { transacao, TransacationTypes } from "@/utils/interfaces/transaction";
 import { ReactNode, useState } from "react";
-import { StyleSheet } from "react-native";
 import ModalTemplate from "./ModalTemplate";
 import EditDepositoForm from "./transaction-forms/editDeposito";
-import EditEmprestimoForm from "./transaction-forms/editEmprestimo";
+import EditLoanForm from "./transaction-forms/editLoan";
 import EditTEDForm from "./transaction-forms/editTED";
 
 export default function ModalTransactionDetails({
@@ -28,8 +27,9 @@ export default function ModalTransactionDetails({
       [TransacationTypes.DEPOSITO]: (
         <EditDepositoForm data={modalData} newFile={newFIle} />
       ),
+
       [TransacationTypes.EMPRESTIMO]: (
-        <EditEmprestimoForm data={modalData} newFile={newFIle} />
+        <EditLoanForm data={modalData} newFile={newFIle} />
       ),
       [TransacationTypes.TED]: (
         <EditTEDForm data={modalData} newFile={newFIle} />
@@ -56,9 +56,3 @@ export default function ModalTransactionDetails({
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    gap: 15,
-  },
-});

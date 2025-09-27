@@ -11,7 +11,7 @@ export default function Shortcuts() {
   const shortcuts: IShortcut[] = [
     {
       title: "PIX",
-      url: "/screens/pix/sendPix",
+      url: "/screens/sendPix",
     },
     {
       title: "TED",
@@ -19,11 +19,11 @@ export default function Shortcuts() {
     },
     {
       title: "Empréstimos",
-      url: "/screens/Loan",
+      url: "/screens/sendLoan",
     },
     {
       title: "Adicionar dinheiro",
-      url: "/screens/addMoney",
+      url: "/screens/sendDeposit",
     },
   ];
 

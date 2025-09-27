@@ -1,15 +1,10 @@
 import { ThemedText } from "@/components/ThemedText";
 import { StyleVariables } from "@/utils/constants/Colors";
-import {
-  IDeposito,
-  IEmprestimo,
-  IPix,
-  ITed,
-} from "@/utils/interfaces/transaction";
+import { Deposito, Loan, Pix, Ted } from "@/utils/interfaces/transaction";
 import { StyleSheet, Text, View } from "react-native";
 
 interface ITransactions {
-  transaction: ITed | IPix | IEmprestimo | IDeposito;
+  transaction: Ted | Pix | Loan | Deposito;
 }
 
 export default function Transaction({ transaction }: ITransactions) {

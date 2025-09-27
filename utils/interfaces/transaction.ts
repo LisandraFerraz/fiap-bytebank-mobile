@@ -1,4 +1,4 @@
-export type transacao = IDeposito | IEmprestimo | ITed | IPix;
+export type transacao = Deposito | Loan | Ted | Pix;
 
 export enum TransacationTypes {
   DEPOSITO = "DEPOSITO",
@@ -13,50 +13,50 @@ export enum TransPeriod {
   NULL = "NULL",
 }
 
-export interface ITed {
+export class Ted {
   transId?: string;
   data?: string;
-  valor: number;
-  cpfDestinatario: string;
-  numConta: number;
-  agencia: string;
-  digito: number;
-  descricao: string;
-  tipo: TransacationTypes.TED;
+  valor?: number;
+  cpfDestinatario?: string;
+  numConta?: number;
+  agencia?: string;
+  digito?: number;
+  descricao?: string;
+  tipo: TransacationTypes.TED = TransacationTypes.TED;
   file?: any;
 }
-export class IPix {
+export class Pix {
   transId?: string;
   data?: string;
   valor?: number | null;
   descricao?: string;
   chavePix?: string;
   destinatario?: string; // nome
-  tipo?: TransacationTypes.PIX = TransacationTypes.PIX;
+  tipo: TransacationTypes.PIX = TransacationTypes.PIX;
   file?: any;
 }
 
-export interface IEmprestimo {
+export class Loan {
   transId?: string;
-  valor: number; // valor do empréstimo
-  data: string;
+  valor?: number; // valor do empréstimo
+  data?: string;
   aberto?: boolean;
-  tipo: TransacationTypes;
-  valorPago: number; // valor para pagar o empréstimo
-  valorDevido: number | 0; // seu valor só é alterado no BFF
+  tipo?: TransacationTypes.EMPRESTIMO = TransacationTypes.EMPRESTIMO;
+  valorPago?: number; // valor para pagar o empréstimo
+  valorDevido?: number | 0; // seu valor só é alterado no BFF
   file?: any;
 }
 
-export interface IDeposito {
+export class Deposito {
   transId?: string;
-  valor: number;
-  data: string;
-  tipo: TransacationTypes.DEPOSITO;
+  valor?: number;
+  data?: string;
+  tipo?: TransacationTypes.DEPOSITO = TransacationTypes.DEPOSITO;
   file?: any;
 }
 
 // === FILTROS ===
-export interface TransactionFilter {
+export class TransactionFilter {
   transType?: TransacationTypes;
   transPeriod?: TransPeriod;
 }

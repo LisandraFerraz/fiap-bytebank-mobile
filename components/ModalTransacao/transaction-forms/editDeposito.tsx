@@ -2,32 +2,25 @@ import "react-native-get-random-values";
 
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
-import { UsePix } from "@/utils/hooks/usePix";
-import { IPix } from "@/utils/interfaces/transaction";
+import { UseDeposit } from "@/utils/hooks/useDeposit";
+import { Deposito } from "@/utils/interfaces/transaction";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { updateBody } from "./shared/update-body-func";
+import { updateBody } from "./utils/update-body-func";
 
 export default function EditDepositoForm({
   data,
   newFile,
 }: {
-  data: IPix;
+  data: Deposito;
   newFile: any;
 }) {
-  const { updatePix } = UsePix();
+  const { updateDeposit } = UseDeposit();
 
-  const [depositoBody, setDepositoBody] = useState<IPix>(data);
-
-  //   const updateBody = (key: keyof IPix, value: string) => {
-  //     setDepositoBody({
-  //       ...data,
-  //       [key]: key === "valor" ? Number(value) : value,
-  //     });
-  //   };
+  const [depositBody, setDepositBody] = useState<Deposito>(data);
 
   const sendUpdatedPix = () => {
-    updatePix(depositoBody);
+    updateDeposit(depositBody);
   };
 
   return (
@@ -38,8 +31,8 @@ export default function EditDepositoForm({
             label="valor"
             placeholder="R$ 0"
             editable={true}
-            onChange={(e: any) => updateBody(data, "valor", e, setDepositoBody)}
-            value={depositoBody?.valor}
+            onChange={(e: any) => updateBody(data, "valor", e, setDepositBody)}
+            value={depositBody?.valor}
           />
         </View>
       </View>

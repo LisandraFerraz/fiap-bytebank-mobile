@@ -30,16 +30,18 @@ export default function TransactionsList() {
   const ExtratoLink = () => {
     return (
       <>
-        {!currentRouteName.includes("extrato") && (
-          <Link href={"/screens/extrato"} style={styles.text_link}>
-            Ver tudo
-          </Link>
-        )}
+        {!currentRouteName.includes("extrato") ||
+          (!currentRouteName.includes("tabs") && (
+            <Link href={"/screens/extrato"} style={styles.text_link}>
+              Ver tudo
+            </Link>
+          ))}
       </>
     );
   };
 
   const openModalEdit = (data: any) => {
+    console.log("clicando");
     setDataModal(data);
     setIsModalShown(true);
   };

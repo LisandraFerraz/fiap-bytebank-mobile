@@ -23,7 +23,9 @@ export default function InputText({
 }) {
   return (
     <View style={styles.container}>
-      <ThemedText type={hasError ? "labelError" : "label"}>{label}</ThemedText>
+      <ThemedText style={styles.label} type={hasError ? "labelError" : "label"}>
+        {label}
+      </ThemedText>
       {errorMessage && <ThemedText type="small">{errorMessage}</ThemedText>}
       <TextInput
         style={[styles.text_input, hasError ? styles.hasError : ""]}
@@ -42,6 +44,9 @@ const styles = StyleSheet.create({
     gap: 10,
     flex: 1,
   },
+  label: {
+    fontSize: 14,
+  },
   text_input: {
     backgroundColor: StyleVariables.color.white_default,
     borderRadius: 4,
@@ -49,7 +54,6 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 16,
     paddingHorizontal: 10,
-    width: "100%",
   },
   hasError: {
     borderWidth: 1,

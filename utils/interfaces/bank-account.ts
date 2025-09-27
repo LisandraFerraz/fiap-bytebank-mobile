@@ -1,4 +1,4 @@
-import { IDeposito, IEmprestimo, IPix, ITed } from "./transaction";
+import { Deposito, Loan, Pix, Ted } from "./transaction";
 
 export class BankAccount {
   uid?: number;
@@ -10,7 +10,7 @@ export class BankAccount {
   agencia: string = "";
   saldo: number = 0;
 
-  depositos: IDeposito[] = [];
-  transferencias: ITed[] | IPix[] = [];
-  historicoEmprestimos: IEmprestimo[] = [];
+  depositos: Deposito[] = [];
+  transferencias: Ted[] | Pix[] = [];
+  historicoEmprestimos: Loan[] = [];
 }

@@ -3,28 +3,21 @@ import "react-native-get-random-values";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
 import { UsePix } from "@/utils/hooks/usePix";
-import { IPix } from "@/utils/interfaces/transaction";
+import { Pix } from "@/utils/interfaces/transaction";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { updateBody } from "./shared/update-body-func";
+import { updateBody } from "./utils/update-body-func";
 
 export default function EditPixForm({
   data,
   newFile,
 }: {
-  data: IPix;
+  data: Pix;
   newFile: any;
 }) {
   const { updatePix } = UsePix();
 
-  const [pixBody, setPixBody] = useState<IPix>(data);
-
-  // const updateBody = (key: keyof IPix, value: string) => {
-  //   setPixBody({
-  //     ...data,
-  //     [key]: key === "valor" ? Number(value) : value,
-  //   });
-  // };
+  const [pixBody, setPixBody] = useState<Pix>(data);
 
   const sendUpdatedPix = () => {
     updatePix(pixBody);

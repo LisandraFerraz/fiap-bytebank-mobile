@@ -1,12 +1,7 @@
-import {
-  IDeposito,
-  IEmprestimo,
-  IPix,
-  ITed,
-} from "@/utils/interfaces/transaction";
+import { Deposito, Loan, Pix, Ted } from "@/utils/interfaces/transaction";
 
 export const updateBody = (
-  data: IDeposito | IEmprestimo | ITed | IPix,
+  data: Deposito | Loan | Ted | Pix,
   key: string,
   value: string,
   setBody: any

@@ -16,28 +16,34 @@ export default function ModalTemplate({
   onClose: () => void;
 }) {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={isOpen}
-          onRequestClose={onClose}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View style={styles.modalTop}>
-                <Text style={styles.modalText}>{modalTitle} </Text>
-                <Pressable style={styles.button} onPress={onClose}>
-                  <Text>X</Text>
-                </Pressable>
+    <>
+      {children && modalTitle && (
+        <SafeAreaProvider>
+          <SafeAreaView style={styles.centeredView}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={isOpen}
+              onRequestClose={onClose}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <View style={styles.modalTop}>
+                    <Text style={styles.modalText}>
+                      {modalTitle && modalTitle}{" "}
+                    </Text>
+                    <Pressable style={styles.button} onPress={onClose}>
+                      <Text>X</Text>
+                    </Pressable>
+                  </View>
+                  {children}
+                </View>
               </View>
-              {children}
-            </View>
-          </View>
-        </Modal>
-      </SafeAreaView>
-    </SafeAreaProvider>
+            </Modal>
+          </SafeAreaView>
+        </SafeAreaProvider>
+      )}
+    </>
   );
 }
 
