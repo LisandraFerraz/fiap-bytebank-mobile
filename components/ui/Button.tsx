@@ -3,17 +3,17 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default function Button({
   name,
-  diabled,
+  disabled,
   onClick,
 }: {
   name: string;
-  diabled: boolean;
+  disabled: boolean;
   onClick: () => void;
 }) {
   return (
     <TouchableOpacity
-      style={[styles.button, diabled ? styles.on_disabled : styles.on_confirm]}
-      disabled={diabled}
+      style={[styles.button, disabled ? styles.on_disabled : styles.on_confirm]}
+      disabled={disabled}
       onPress={() => onClick()}
     >
       <Text style={styles.button_text}>{name}</Text>

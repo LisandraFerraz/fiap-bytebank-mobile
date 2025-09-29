@@ -1,6 +1,8 @@
 import { StyleVariables } from "@/utils/constants/Colors";
 import { router } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { ThemedText } from "../ThemedText";
+import { Card } from "./Card";
 
 interface IShortcut {
   title: string;
@@ -29,17 +31,16 @@ export default function Shortcuts() {
 
   return (
     <View style={styles.container}>
-      {shortcuts.map((sc: IShortcut, index: any) => (
-        <TouchableOpacity
-          onPress={() => router.push(sc.url as any)}
-          key={index}
-          style={styles.card}
-        >
-          <Text style={styles.card_text} key={index}>
-            {sc.title}
-          </Text>
-        </TouchableOpacity>
-      ))}
+      <ThemedText type="defaultSemiBold">Atalhos</ThemedText>
+      <View style={styles.cardsContainer}>
+        {shortcuts.map((sc: IShortcut, index: any) => (
+          <Card
+            cardTxt={sc.title}
+            onPress={() => router.push(sc.url as any)}
+            key={index}
+          />
+        ))}
+      </View>
     </View>
   );
 }
@@ -47,10 +48,15 @@ export default function Shortcuts() {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     overflow: "scroll",
+    paddingVertical: 20,
     gap: 10,
-    paddingHorizontal: 10,
+  },
+  cardsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 10,
   },
   card: {
     backgroundColor: StyleVariables.color.white_default,

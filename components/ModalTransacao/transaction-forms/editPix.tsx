@@ -15,12 +15,18 @@ export default function EditPixForm({
   data: Pix;
   newFile: any;
 }) {
-  const { updatePix } = UsePix();
+  const { updatePix, deletePix } = UsePix();
 
   const [pixBody, setPixBody] = useState<Pix>(data);
 
   const sendUpdatedPix = () => {
     updatePix(pixBody);
+  };
+
+  const handleDeleteLoan = () => {
+    if (data.transId) {
+      deletePix(data.transId);
+    }
   };
 
   return (
@@ -67,14 +73,8 @@ export default function EditPixForm({
           />
         </View>
         <View style={[styles.row, styles.row_button]}>
-          <Button
-            diabled={false}
-            name="Excluir"
-            onClick={() => {
-              /*func excl*/
-            }}
-          />
-          <Button diabled={false} name="Confirmar" onClick={sendUpdatedPix} />
+          <Button disabled={false} name="Excluir" onClick={handleDeleteLoan} />
+          <Button disabled={false} name="Confirmar" onClick={sendUpdatedPix} />
         </View>
       </View>
     </>

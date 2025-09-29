@@ -113,7 +113,7 @@ export default function SignUp() {
             onClick={() => {
               signUp(userBody, bankAccBody);
             }}
-            diabled={false}
+            disabled={false}
             name="cadastrar"
           />
         </ScrollView>

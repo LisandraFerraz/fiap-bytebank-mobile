@@ -1,47 +1,35 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import ModalTransactionDetails from "@/components/ModalTransacao/ModalDetails";
 import { ThemedText } from "@/components/ThemedText";
 import { StyleVariables } from "@/utils/constants/Colors";
-import { UseTransactions } from "@/utils/hooks/useTransactions";
-import { useNavigationState } from "@react-navigation/native";
 import { Link } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Divisor from "../Divisor";
 import Transaction from "./Transaction";
 
-export default function TransactionsList() {
-  const { listAllTransactions } = UseTransactions();
-
-  const currentRouteName = useNavigationState(
-    (state) => state.routes[state.index].name
-  );
-
+export default function TransactionsList({
+  data,
+  hideLink,
+}: {
+  data: any[] | undefined;
+  hideLink?: boolean;
+}) {
   const [isModalShown, setIsModalShown] = useState<boolean>(true);
-  const [transactions, setTransactions] = useState<any[] | undefined>([]);
   const [dataModal, setDataModal] = useState<any>();
-
-  useEffect(() => {
-    listAllTransactions().then((res) => {
-      setTransactions(res);
-    });
-  }, []);
 
   const ExtratoLink = () => {
     return (
       <>
-        {!currentRouteName.includes("extrato") ||
-          (!currentRouteName.includes("tabs") && (
-            <Link href={"/screens/extrato"} style={styles.text_link}>
-              Ver tudo
-            </Link>
-          ))}
+        {!hideLink && (
+          <Link href={"/screens/extrato"} style={styles.text_link}>
+            Ver tudo
+          </Link>
+        )}
       </>
     );
   };
 
   const openModalEdit = (data: any) => {
-    console.log("clicando");
     setDataModal(data);
     setIsModalShown(true);
   };
@@ -49,13 +37,13 @@ export default function TransactionsList() {
   return (
     <>
       <View style={styles.content_container}>
-        {transactions ? (
+        {data?.length ? (
           <>
             <View style={styles.text_group}>
               <ThemedText type="defaultSemiBold">Extrato</ThemedText>
               <ExtratoLink />
             </View>
-            {transactions?.map((ts: any, index: any) => (
+            {data?.map((ts: any, index: any) => (
               <React.Fragment key={index}>
                 <View style={styles.cards_container}>
                   <Pressable onPress={() => openModalEdit(ts)}>
@@ -90,7 +78,7 @@ export default function TransactionsList() {
 
 const styles = StyleSheet.create({
   content_container: {
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
   },
   text_group: {
     display: "flex",

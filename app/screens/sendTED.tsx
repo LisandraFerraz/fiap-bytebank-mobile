@@ -84,7 +84,7 @@ export default function SendTED() {
 
           <View style={[styles.row, styles.row_button]}>
             <Button
-              diabled={false}
+              disabled={false}
               name="Confirmar"
               onClick={saveTransaction}
             />

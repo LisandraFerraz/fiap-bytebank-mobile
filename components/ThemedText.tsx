@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     lineHeight: 24,
     fontWeight: "600",
     textTransform: "uppercase",

@@ -44,7 +44,6 @@ export default function BalanceCard() {
 const styles = StyleSheet.create({
   container: {
     height: 180,
-    padding: 10,
   },
   balanceCard: {
     flex: 1,

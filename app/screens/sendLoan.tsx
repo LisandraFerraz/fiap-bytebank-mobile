@@ -1,20 +1,28 @@
 import "react-native-get-random-values";
-import { Loan } from "../../utils/interfaces/transaction";
+import { v4 as uuid } from "uuid";
 
 import FormTemplate from "@/components/FormTemplate";
 import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { FormatDate } from "@/utils/functions/format-data";
+import { useLoan } from "@/utils/hooks/useLoan";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { Loan } from "../../utils/interfaces/transaction";
 
 export default function SendLoan() {
-  //   const { sendTED } = UseTed();
+  const { sendLoan } = useLoan();
 
   const [loanBody, setLoanBody] = useState<Loan>(new Loan());
 
   const saveTransaction = () => {
-    // sendTED(loanBody);
+    const dateToday = new Date();
+    sendLoan({
+      ...loanBody,
+      data: FormatDate(dateToday),
+      transId: uuid(),
+    });
   };
 
   return (
@@ -34,7 +42,7 @@ export default function SendLoan() {
 
           <View style={[styles.row, styles.row_button]}>
             <Button
-              diabled={false}
+              disabled={false}
               name="Confirmar"
               onClick={saveTransaction}
             />

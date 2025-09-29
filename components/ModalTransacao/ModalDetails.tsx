@@ -45,11 +45,7 @@ export default function ModalTransactionDetails({
   return (
     <>
       {shown && data && (
-        <ModalTemplate
-          modalTitle="editar transação pix"
-          onClose={onClose}
-          isOpen={shown}
-        >
+        <ModalTemplate modalTitle="editar" onClose={onClose} isOpen={shown}>
           <>{checkFormType(modalData?.tipo)}</>
         </ModalTemplate>
       )}

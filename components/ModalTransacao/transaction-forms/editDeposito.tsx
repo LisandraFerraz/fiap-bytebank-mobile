@@ -15,12 +15,16 @@ export default function EditDepositoForm({
   data: Deposito;
   newFile: any;
 }) {
-  const { updateDeposit } = UseDeposit();
+  const { updateDeposit, deleteDeposit } = UseDeposit();
 
   const [depositBody, setDepositBody] = useState<Deposito>(data);
 
   const sendUpdatedPix = () => {
     updateDeposit(depositBody);
+  };
+
+  const handleDelete = () => {
+    if (data.transId) deleteDeposit(data.transId);
   };
 
   return (
@@ -37,14 +41,8 @@ export default function EditDepositoForm({
         </View>
       </View>
       <View style={[styles.row, styles.row_button]}>
-        <Button
-          diabled={false}
-          name="Excluir"
-          onClick={() => {
-            /*func excl*/
-          }}
-        />
-        <Button diabled={false} name="Confirmar" onClick={sendUpdatedPix} />
+        <Button disabled={false} name="Excluir" onClick={handleDelete} />
+        <Button disabled={false} name="Confirmar" onClick={sendUpdatedPix} />
       </View>
     </>
   );

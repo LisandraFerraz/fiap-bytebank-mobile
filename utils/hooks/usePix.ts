@@ -42,5 +42,31 @@ export const UsePix = () => {
     });
   };
 
-  return { sendPix, updatePix };
+  const deletePix = (pixId: string) => {
+    getBankAccountData().then(async (bankAccInfo) => {
+      try {
+        if (bankAccInfo === null)
+          return console.error("deletePix :: bankAccInfo is NULL ");
+
+        const targetTrans = bankAccInfo.data.transferencias.find(
+          (ep) => ep.transId === pixId
+        );
+        const updatedTrans = bankAccInfo.data.transferencias.filter(
+          (ep) => ep.transId !== pixId
+        );
+
+        const updatedData = {
+          ...bankAccInfo.data,
+          saldo: bankAccInfo.data.saldo - targetTrans?.valor!,
+          transferencias: updatedTrans,
+        };
+
+        await updateDoc(bankAccInfo.ref, updatedData);
+      } catch (error) {
+        console.error("deletePix :: CATCH ERROR ", error);
+      }
+    });
+  };
+
+  return { sendPix, updatePix, deletePix };
 };

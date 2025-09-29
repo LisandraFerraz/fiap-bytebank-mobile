@@ -46,6 +46,7 @@ export const StyleVariables = {
     white_default: "#fff",
 
     dark_transparency: "#0000002e",
+    soft_transparency: "#f2f2f2ff",
   },
   font: {
     text_lg: "1.5rem",

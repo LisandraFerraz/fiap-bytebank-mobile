@@ -35,7 +35,7 @@ export default function Login() {
           onClick={() => {
             login(email, password);
           }}
-          diabled={false}
+          disabled={false}
           name="Entrar"
         />
         <Link href={"/(auth)/signup"}>Não tem conta? Crie uma agora.</Link>

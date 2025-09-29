@@ -15,12 +15,16 @@ export default function EditTEDForm({
   data: Ted;
   newFile: any;
 }) {
-  const { updateTED } = UseTed();
+  const { updateTED, deleteTed } = UseTed();
 
   const [tedBody, setTEDBody] = useState<Ted>(data);
 
   const sendUpdatedTed = () => {
     updateTED(tedBody);
+  };
+
+  const handleDeleteTED = () => {
+    if (data.transId) deleteTed(data.transId);
   };
 
   return (
@@ -84,14 +88,8 @@ export default function EditTEDForm({
         </View>
       </View>
       <View style={[styles.row, styles.row_button]}>
-        <Button
-          diabled={false}
-          name="Excluir"
-          onClick={() => {
-            /*func excl*/
-          }}
-        />
-        <Button diabled={false} name="Confirmar" onClick={sendUpdatedTed} />
+        <Button disabled={false} name="Excluir" onClick={handleDeleteTED} />
+        <Button disabled={false} name="Confirmar" onClick={sendUpdatedTed} />
       </View>
     </>
   );

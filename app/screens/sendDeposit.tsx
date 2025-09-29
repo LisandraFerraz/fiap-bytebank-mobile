@@ -1,9 +1,11 @@
 import "react-native-get-random-values";
+import { v4 as uuid } from "uuid";
 
 import FormTemplate from "@/components/FormTemplate";
 import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { FormatDate } from "@/utils/functions/format-data";
 import { UseDeposit } from "@/utils/hooks/useDeposit";
 import { Deposito } from "@/utils/interfaces/transaction";
 import { useState } from "react";
@@ -15,7 +17,12 @@ export default function SendDeposit() {
   const [depositBody, setDepositBody] = useState<Deposito>(new Deposito());
 
   const saveDeposit = () => {
-    sendDeposit(depositBody);
+    const dateToday = new Date();
+    sendDeposit({
+      ...depositBody,
+      data: FormatDate(dateToday),
+      transId: uuid(),
+    });
   };
 
   return (
@@ -33,7 +40,7 @@ export default function SendDeposit() {
             />
           </View>
           <View style={[styles.row, styles.row_button]}>
-            <Button diabled={false} name="Confirmar" onClick={saveDeposit} />
+            <Button disabled={false} name="Confirmar" onClick={saveDeposit} />
           </View>
         </View>
       </FormTemplate>

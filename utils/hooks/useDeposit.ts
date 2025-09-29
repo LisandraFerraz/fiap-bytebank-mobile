@@ -9,11 +9,17 @@ export const UseDeposit = () => {
     getBankAccountData().then(async (bankAccInfo) => {
       try {
         if (bankAccInfo === null)
-          return console.error("SsendDepositendPix :: bankAccInfo is NULL ");
+          return console.error("SendDepositendPix :: bankAccInfo is NULL ");
 
-        await updateDoc(bankAccInfo.ref, {
-          transferencias: arrayUnion(depositBody),
-        });
+        const updatedSaldo = bankAccInfo.data.saldo + depositBody?.valor!;
+
+        const updatedData = {
+          ...bankAccInfo.data,
+          saldo: updatedSaldo,
+          depositos: arrayUnion(depositBody),
+        };
+
+        await updateDoc(bankAccInfo.ref, updatedData);
         console.log("sendDeposit :: PIX ADICIONADO ");
       } catch (error) {
         console.error("sendDeposit :: CATCH ERROR ", error);
@@ -25,7 +31,7 @@ export const UseDeposit = () => {
     getBankAccountData().then(async (bankAccInfo) => {
       try {
         if (bankAccInfo === null)
-          return console.error("SsendDepositendPix :: bankAccInfo is NULL ");
+          return console.error("SendDepositendPix :: bankAccInfo is NULL ");
 
         const updatedDeposits = bankAccInfo.data.depositos.map((dp) =>
           dp.transId === depositBody.transId ? { ...dp, ...depositBody } : dp
@@ -36,10 +42,44 @@ export const UseDeposit = () => {
         });
         console.log("sendDeposit :: SUCCESS ");
       } catch (error) {
-        console.error("sendDeposit :: CATCH ERROR ", error);
+        console.error("updateDeposit :: CATCH ERROR ", error);
       }
     });
   };
 
-  return { sendDeposit, updateDeposit };
+  const deleteDeposit = (depositId: string) => {
+    getBankAccountData().then(async (bankAccInfo) => {
+      try {
+        if (bankAccInfo === null)
+          return console.error("deleteDeposit :: bankAccInfo is NULL ");
+
+        const targetDeposit = bankAccInfo.data.depositos.find(
+          (dp) => dp.transId === depositId
+        );
+        const updatedDeposits = bankAccInfo.data.depositos.filter(
+          (dp) => dp.transId !== depositId
+        );
+
+        const updatedSaldo = bankAccInfo.data.saldo - targetDeposit?.valor!;
+
+        if (updatedSaldo < 0)
+          return console.error(
+            "deleteDeposit :: targetDeposit.valor is bigger than SALDO."
+          );
+
+        const updatedData = {
+          ...bankAccInfo.data,
+          saldo: updatedSaldo,
+          depositos: updatedDeposits,
+        };
+
+        await updateDoc(bankAccInfo.ref, updatedData);
+        console.log("deleteDeposit :: SUCCESS ");
+      } catch (error) {
+        console.error("deleteDeposit :: CATCH ERROR ", error);
+      }
+    });
+  };
+
+  return { sendDeposit, updateDeposit, deleteDeposit };
 };

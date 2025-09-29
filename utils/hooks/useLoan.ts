@@ -5,14 +5,14 @@ import { UseBank } from "./useBank";
 export const useLoan = () => {
   const { getBankAccountData } = UseBank();
 
-  const sendLoan = (tedBody: Loan) => {
+  const sendLoan = (loanBody: Loan) => {
     getBankAccountData().then(async (bankAccInfo) => {
       try {
         if (bankAccInfo === null)
           return console.error("UseTed :: bankAccInfo is NULL ");
 
         await updateDoc(bankAccInfo.ref, {
-          historicoEmprestimos: arrayUnion(tedBody),
+          historicoEmprestimos: arrayUnion(loanBody),
         });
       } catch (error) {
         console.error("sendTED :: CATCH ERROR ", error);
@@ -75,5 +75,31 @@ export const useLoan = () => {
     });
   };
 
-  return { sendLoan, updateLoan };
+  const deleteLoan = (loanId: string) => {
+    getBankAccountData().then(async (bankAccInfo) => {
+      try {
+        if (bankAccInfo === null)
+          return console.error("deleteLoan :: bankAccInfo is NULL ");
+
+        const targetLoan = bankAccInfo.data.historicoEmprestimos.find(
+          (ep) => ep.transId === loanId
+        );
+        const updatedLoans = bankAccInfo.data.historicoEmprestimos.filter(
+          (ep) => ep.transId !== loanId
+        );
+
+        const updatedData = {
+          ...bankAccInfo.data,
+          saldo: bankAccInfo.data.saldo + targetLoan?.valorDevido!,
+          historicoEmprestimos: updatedLoans,
+        };
+
+        await updateDoc(bankAccInfo.ref, updatedData);
+      } catch (error) {
+        console.error("deleteLoan :: CATCH ERROR ", error);
+      }
+    });
+  };
+
+  return { sendLoan, updateLoan, deleteLoan };
 };

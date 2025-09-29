@@ -17,7 +17,6 @@ export default function SendPix() {
 
   const updateBody = (key: keyof Pix, value: string) => {
     const dateToday = new Date();
-
     setPixBody({
       ...pixBody,
       [key]: key === "valor" ? Number(value) : value,
@@ -70,7 +69,7 @@ export default function SendPix() {
           </View>
           <View style={[styles.row, styles.row_button]}>
             <Button
-              diabled={false}
+              disabled={false}
               name="Confirmar"
               onClick={saveTransaction}
             />

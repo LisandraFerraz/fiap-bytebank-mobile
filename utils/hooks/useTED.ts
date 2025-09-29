@@ -40,5 +40,31 @@ export default function UseTed() {
     });
   };
 
-  return { sendTED, updateTED };
+  const deleteTed = (tedId: string) => {
+    getBankAccountData().then(async (bankAccInfo) => {
+      try {
+        if (bankAccInfo === null)
+          return console.error("deleteTed :: bankAccInfo is NULL ");
+
+        const targetTrans = bankAccInfo.data.transferencias.find(
+          (ep) => ep.transId === tedId
+        );
+        const updatedTrans = bankAccInfo.data.transferencias.filter(
+          (ep) => ep.transId !== tedId
+        );
+
+        const updatedData = {
+          ...bankAccInfo.data,
+          saldo: bankAccInfo.data.saldo - targetTrans?.valor!,
+          transferencias: updatedTrans,
+        };
+
+        await updateDoc(bankAccInfo.ref, updatedData);
+      } catch (error) {
+        console.error("deleteTed :: CATCH ERROR ", error);
+      }
+    });
+  };
+
+  return { sendTED, updateTED, deleteTed };
 }

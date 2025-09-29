@@ -15,12 +15,16 @@ export default function EditLoanForm({
   data: Loan;
   newFile: any;
 }) {
-  const { updateLoan } = useLoan();
+  const { updateLoan, deleteLoan } = useLoan();
 
   const [loanBody, setLoanBody] = useState<Loan>(data);
 
   const sendUpdatedPix = () => {
     updateLoan(loanBody);
+  };
+
+  const handleDeleteLoan = () => {
+    if (data.transId) deleteLoan(data.transId);
   };
 
   return (
@@ -47,14 +51,8 @@ export default function EditLoanForm({
         </View>
       </View>
       <View style={[styles.row, styles.row_button]}>
-        <Button
-          diabled={false}
-          name="Excluir"
-          onClick={() => {
-            /*func excl*/
-          }}
-        />
-        <Button diabled={false} name="Confirmar" onClick={sendUpdatedPix} />
+        <Button disabled={false} name="Excluir" onClick={handleDeleteLoan} />
+        <Button disabled={false} name="Confirmar" onClick={sendUpdatedPix} />
       </View>
     </>
   );
