@@ -4,7 +4,7 @@ import { StyleVariables } from "@/utils/constants/Colors";
 import { UseTransactions } from "@/utils/hooks/useTransactions";
 import { TransacationTypes } from "@/utils/interfaces/transaction";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 interface IFilters {
   title: string;
@@ -112,39 +112,41 @@ export default function Extrato() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.cardsContainer}>
-        {filtersBtn.map((ft: IFilters, index: any) => (
-          <Card
-            extraStyle={
-              isFilterActive(ft.type) ? styles.activeFilter : styles.filter
-            }
-            cardTxt={ft.title}
-            onPress={() => handleApplyTypeFilter(ft.type)}
-            key={index}
-          />
-        ))}
-      </View>
-      <View>
+      <ScrollView>
         <View style={styles.cardsContainer}>
-          <Card
-            extraStyle={[
-              isFilterActive("recente") ? styles.activeFilter : styles.filter,
-              { borderRadius: 100 },
-            ]}
-            cardTxt="Mais recente"
-            onPress={() => handleApplyDataFilter("recente")}
-          />
-          <Card
-            extraStyle={[
-              isFilterActive("antigo") ? styles.activeFilter : styles.filter,
-              { borderRadius: 100 },
-            ]}
-            cardTxt="Mais antigo"
-            onPress={() => handleApplyDataFilter("antigo")}
-          />
+          {filtersBtn.map((ft: IFilters, index: any) => (
+            <Card
+              extraStyle={
+                isFilterActive(ft.type) ? styles.activeFilter : styles.filter
+              }
+              cardTxt={ft.title}
+              onPress={() => handleApplyTypeFilter(ft.type)}
+              key={index}
+            />
+          ))}
         </View>
-      </View>
-      <TransactionsList hideLink={true} data={filteredTrans} />
+        <View>
+          <View style={styles.cardsContainer}>
+            <Card
+              extraStyle={[
+                isFilterActive("recente") ? styles.activeFilter : styles.filter,
+                { borderRadius: 100 },
+              ]}
+              cardTxt="Mais recente"
+              onPress={() => handleApplyDataFilter("recente")}
+            />
+            <Card
+              extraStyle={[
+                isFilterActive("antigo") ? styles.activeFilter : styles.filter,
+                { borderRadius: 100 },
+              ]}
+              cardTxt="Mais antigo"
+              onPress={() => handleApplyDataFilter("antigo")}
+            />
+          </View>
+        </View>
+        <TransactionsList hideLink={true} data={filteredTrans} />
+      </ScrollView>
     </View>
   );
 }
@@ -154,13 +156,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: StyleVariables.color.white_default,
     padding: 15,
-    gap: 15,
     paddingHorizontal: 15,
   },
+
   cardsContainer: {
     display: "flex",
     flexDirection: "row",
     gap: 10,
+    marginBottom: 15,
   },
   activeFilter: {
     backgroundColor: StyleVariables.color.green_faded,

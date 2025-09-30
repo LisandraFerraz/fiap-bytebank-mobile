@@ -1,5 +1,6 @@
 import SignUp from "@/app/(auth)/signup";
 import BalanceCard from "@/components/ui/BalanceCard";
+import { ExpensesChart } from "@/components/ui/ExpensesChart";
 import Shortcuts from "@/components/ui/Shortcuts";
 import TransactionsList from "@/components/ui/Transactions/TransactionsList";
 import { useAuth } from "@/contex/AuthContext";
@@ -31,6 +32,7 @@ export default function HomeScreen() {
           <BalanceCard />
           <Shortcuts />
           <TransactionsList data={transactions} />
+          <ExpensesChart />
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
