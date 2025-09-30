@@ -26,16 +26,18 @@ export default function HomeScreen() {
   if (!isAuthenticated) return <SignUp />;
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView edges={["left", "right"]} style={styles.areaView}>
-        <ScrollView>
-          <BalanceCard />
-          <Shortcuts />
-          <TransactionsList data={transactions} />
-          <ExpensesChart />
-        </ScrollView>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <>
+      <SafeAreaProvider>
+        <SafeAreaView edges={["left", "right"]} style={styles.areaView}>
+          <ScrollView>
+            <BalanceCard />
+            <Shortcuts />
+            <TransactionsList data={transactions} />
+            <ExpensesChart />
+          </ScrollView>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </>
   );
 }
 

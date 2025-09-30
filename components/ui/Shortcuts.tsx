@@ -13,19 +13,19 @@ export default function Shortcuts() {
   const shortcuts: IShortcut[] = [
     {
       title: "PIX",
-      url: "/screens/sendPix",
+      url: "/sendPix",
     },
     {
       title: "TED",
-      url: "/screens/sendTED",
+      url: "/sendTED",
     },
     {
       title: "Empréstimos",
-      url: "/screens/sendLoan",
+      url: "/sendLoan",
     },
     {
       title: "Adicionar dinheiro",
-      url: "/screens/sendDeposit",
+      url: "/sendDeposit",
     },
   ];
 

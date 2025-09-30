@@ -21,7 +21,7 @@ export default function TransactionsList({
     return (
       <>
         {!hideLink && (
-          <Link href={"/screens/extrato"} style={styles.text_link}>
+          <Link href={"/extrato"} style={styles.text_link}>
             Ver tudo
           </Link>
         )}
