@@ -2,8 +2,11 @@ import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 
 import FormTemplate from "@/components/FormTemplate";
+import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { isTedFormInvalid } from "@/utils/functions/form-validate/forms";
+import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { FormatDate } from "@/utils/functions/format-data";
 import UseTed from "@/utils/hooks/useTED";
 import { Ted } from "@/utils/interfaces/transaction";
@@ -15,18 +18,15 @@ export default function SendTED() {
 
   const [tedBody, setTEDBody] = useState<Ted>(new Ted());
 
-  const updateBody = (key: keyof Ted, value: string) => {
-    const dateToday = new Date();
-    setTEDBody({
-      ...tedBody,
-      [key]: key === "valor" ? Number(value) : value,
-      data: FormatDate(dateToday),
-      transId: uuid(),
-    });
-  };
-
   const saveTransaction = () => {
-    sendTED(tedBody);
+    if (!isTedFormInvalid(tedBody)) {
+      const dateToday = new Date();
+      sendTED({
+        ...tedBody,
+        data: FormatDate(dateToday),
+        transId: uuid(),
+      });
+    }
   };
 
   return (
@@ -38,7 +38,12 @@ export default function SendTED() {
               label="valor"
               placeholder="R$ 0"
               editable={true}
-              onChange={(e: any) => updateBody("valor", e)}
+              onChange={(e: any) => updateBody(tedBody, "valor", e, setTEDBody)}
+              errorMessage={
+                tedBody.valor && isAmountInvalid(tedBody.valor)
+                  ? "- inválido"
+                  : ""
+              }
             />
           </View>
           <View style={styles.row}>
@@ -46,7 +51,15 @@ export default function SendTED() {
               label="CPF Destinatário (opcional)"
               placeholder="000.000.000-00"
               editable={true}
-              onChange={(e: any) => updateBody("cpfDestinatario", e)}
+              onChange={(e: any) =>
+                updateBody(tedBody, "cpfDestinatario", e, setTEDBody)
+              }
+              errorMessage={
+                tedBody.cpfDestinatario &&
+                String(tedBody.cpfDestinatario).length < 11
+                  ? "- inválido"
+                  : ""
+              }
             />
           </View>
           <View style={styles.row}>
@@ -54,7 +67,14 @@ export default function SendTED() {
               label="Conta"
               placeholder="000000 (opcional)"
               editable={true}
-              onChange={(e: any) => updateBody("numConta", e)}
+              onChange={(e: any) =>
+                updateBody(tedBody, "numConta", e, setTEDBody)
+              }
+              errorMessage={
+                tedBody.numConta && String(tedBody.numConta).length < 6
+                  ? "- insira 6 dígitos"
+                  : ""
+              }
             />
           </View>
           <View style={styles.row}>
@@ -62,7 +82,14 @@ export default function SendTED() {
               label="Agência (opcional)"
               placeholder="000"
               editable={true}
-              onChange={(e: any) => updateBody("agencia", e)}
+              onChange={(e: any) =>
+                updateBody(tedBody, "agencia", e, setTEDBody)
+              }
+              errorMessage={
+                tedBody.agencia && tedBody.agencia.length < 3
+                  ? "- insira 3 dígitos"
+                  : ""
+              }
             />
           </View>
           <View style={styles.row}>
@@ -70,7 +97,14 @@ export default function SendTED() {
               editable={true}
               label="Digito (opcional)"
               placeholder="0"
-              onChange={(e: any) => updateBody("digito", e)}
+              onChange={(e: any) =>
+                updateBody(tedBody, "digito", e, setTEDBody)
+              }
+              errorMessage={
+                tedBody.descricao && String(tedBody.descricao).length < 3
+                  ? "- insira mais de 3 dígitos"
+                  : ""
+              }
             />
           </View>
           <View style={styles.row}>
@@ -78,13 +112,15 @@ export default function SendTED() {
               editable={true}
               label="descrição (opcional)"
               placeholder="Descrição..."
-              onChange={(e: any) => updateBody("descricao", e)}
+              onChange={(e: any) =>
+                updateBody(tedBody, "descricao", e, setTEDBody)
+              }
             />
           </View>
 
           <View style={[styles.row, styles.row_button]}>
             <Button
-              disabled={false}
+              disabled={isTedFormInvalid(tedBody)}
               name="Confirmar"
               onClick={saveTransaction}
             />
@@ -106,5 +142,6 @@ const styles = StyleSheet.create({
   },
   row_button: {
     marginTop: 10,
+    justifyContent: "flex-end",
   },
 });

@@ -2,6 +2,7 @@ import "react-native-get-random-values";
 
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { useLoan } from "@/utils/hooks/useLoan";
 import { Loan } from "@/utils/interfaces/transaction";
 import { useState } from "react";
@@ -46,13 +47,22 @@ export default function EditLoanForm({
               onChange={(e: any) =>
                 updateBody(loanBody, "valorPago", e, setLoanBody)
               }
+              errorMessage={
+                loanBody.valor && isAmountInvalid(loanBody.valor)
+                  ? "- inválido"
+                  : ""
+              }
             />
           </View>
         </View>
       </View>
       <View style={[styles.row, styles.row_button]}>
         <Button disabled={false} name="Excluir" onClick={handleDeleteLoan} />
-        <Button disabled={false} name="Confirmar" onClick={sendUpdatedPix} />
+        <Button
+          disabled={isAmountInvalid(loanBody.valor)}
+          name="Confirmar"
+          onClick={sendUpdatedPix}
+        />
       </View>
     </>
   );
@@ -69,5 +79,6 @@ const styles = StyleSheet.create({
   },
   row_button: {
     marginTop: 10,
+    justifyContent: "flex-end",
   },
 });

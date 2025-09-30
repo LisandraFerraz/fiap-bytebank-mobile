@@ -2,6 +2,7 @@ import "react-native-get-random-values";
 
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { UseDeposit } from "@/utils/hooks/useDeposit";
 import { Deposito } from "@/utils/interfaces/transaction";
 import { useState } from "react";
@@ -37,12 +38,21 @@ export default function EditDepositoForm({
             editable={true}
             onChange={(e: any) => updateBody(data, "valor", e, setDepositBody)}
             value={depositBody?.valor}
+            errorMessage={
+              depositBody.valor && isAmountInvalid(depositBody.valor)
+                ? "- inválido"
+                : ""
+            }
           />
         </View>
       </View>
       <View style={[styles.row, styles.row_button]}>
         <Button disabled={false} name="Excluir" onClick={handleDelete} />
-        <Button disabled={false} name="Confirmar" onClick={sendUpdatedPix} />
+        <Button
+          disabled={isAmountInvalid(depositBody.valor) && !newFile}
+          name="Confirmar"
+          onClick={sendUpdatedPix}
+        />
       </View>
     </>
   );
@@ -59,5 +69,6 @@ const styles = StyleSheet.create({
   },
   row_button: {
     marginTop: 10,
+    justifyContent: "flex-end",
   },
 });

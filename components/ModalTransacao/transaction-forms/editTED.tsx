@@ -106,5 +106,6 @@ const styles = StyleSheet.create({
   },
   row_button: {
     marginTop: 10,
+    justifyContent: "flex-end",
   },
 });

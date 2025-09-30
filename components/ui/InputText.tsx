@@ -7,14 +7,14 @@ export default function InputText({
   maxLength,
   onChange,
   editable,
-  hasError,
+  // hasError,
   errorMessage,
   label,
   placeholder,
 }: {
   value?: any;
   label: string;
-  hasError?: boolean;
+  // hasError?: boolean;
   errorMessage?: string;
   maxLength?: number;
   editable?: boolean;
@@ -23,12 +23,14 @@ export default function InputText({
 }) {
   return (
     <View style={styles.container}>
-      <ThemedText style={styles.label} type={hasError ? "labelError" : "label"}>
-        {label}
+      <ThemedText
+        style={styles.label}
+        type={errorMessage ? "labelError" : "label"}
+      >
+        {label} {errorMessage}
       </ThemedText>
-      {errorMessage && <ThemedText type="small">{errorMessage}</ThemedText>}
       <TextInput
-        style={[styles.text_input, hasError ? styles.hasError : ""]}
+        style={[styles.text_input, errorMessage ? styles.hasError : ""]}
         value={value}
         maxLength={maxLength || undefined}
         editable={editable || true}

@@ -2,6 +2,8 @@ import "react-native-get-random-values";
 
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { isPixFormInvalid } from "@/utils/functions/form-validate/forms";
+import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { UsePix } from "@/utils/hooks/usePix";
 import { Pix } from "@/utils/interfaces/transaction";
 import { useState } from "react";
@@ -19,7 +21,7 @@ export default function EditPixForm({
 
   const [pixBody, setPixBody] = useState<Pix>(data);
 
-  const sendUpdatedPix = () => {
+  const sendpixBody = () => {
     updatePix(pixBody);
   };
 
@@ -39,6 +41,11 @@ export default function EditPixForm({
             editable={true}
             onChange={(e: any) => updateBody(data, "valor", e, setPixBody)}
             value={pixBody?.valor}
+            errorMessage={
+              pixBody.valor && isAmountInvalid(pixBody.valor)
+                ? "- inválido"
+                : ""
+            }
           />
         </View>
         <View style={styles.row}>
@@ -48,6 +55,11 @@ export default function EditPixForm({
             onChange={(e: any) => updateBody(data, "chavePix", e, setPixBody)}
             editable={true}
             value={pixBody?.chavePix}
+            errorMessage={
+              pixBody.chavePix && String(pixBody.chavePix).length < 6
+                ? "- insira mais de 6 dígitos"
+                : ""
+            }
           />
         </View>
 
@@ -60,6 +72,11 @@ export default function EditPixForm({
             }
             editable={true}
             value={pixBody?.destinatario}
+            errorMessage={
+              pixBody.destinatario && String(pixBody.destinatario).length < 3
+                ? "- insira mais de 3 dígitos"
+                : ""
+            }
           />
         </View>
 
@@ -70,11 +87,20 @@ export default function EditPixForm({
             onChange={(e: any) => updateBody(data, "descricao", e, setPixBody)}
             editable={true}
             value={pixBody?.descricao}
+            errorMessage={
+              pixBody.descricao && String(pixBody.descricao).length < 3
+                ? "- insira mais de 3 dígitos"
+                : ""
+            }
           />
         </View>
         <View style={[styles.row, styles.row_button]}>
           <Button disabled={false} name="Excluir" onClick={handleDeleteLoan} />
-          <Button disabled={false} name="Confirmar" onClick={sendUpdatedPix} />
+          <Button
+            disabled={isPixFormInvalid(pixBody)}
+            name="Confirmar"
+            onClick={sendpixBody}
+          />
         </View>
       </View>
     </>
@@ -92,5 +118,6 @@ const styles = StyleSheet.create({
   },
   row_button: {
     marginTop: 10,
+    justifyContent: "flex-end",
   },
 });

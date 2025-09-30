@@ -5,6 +5,7 @@ import FormTemplate from "@/components/FormTemplate";
 import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { FormatDate } from "@/utils/functions/format-data";
 import { useLoan } from "@/utils/hooks/useLoan";
 import { useState } from "react";
@@ -17,12 +18,14 @@ export default function SendLoan() {
   const [loanBody, setLoanBody] = useState<Loan>(new Loan());
 
   const saveTransaction = () => {
-    const dateToday = new Date();
-    sendLoan({
-      ...loanBody,
-      data: FormatDate(dateToday),
-      transId: uuid(),
-    });
+    if (!isAmountInvalid(loanBody.valor)) {
+      const dateToday = new Date();
+      sendLoan({
+        ...loanBody,
+        data: FormatDate(dateToday),
+        transId: uuid(),
+      });
+    }
   };
 
   return (
@@ -36,6 +39,11 @@ export default function SendLoan() {
               editable={true}
               onChange={(e: any) =>
                 updateBody(loanBody, "valor", e, setLoanBody)
+              }
+              errorMessage={
+                loanBody.valor && isAmountInvalid(loanBody.valor)
+                  ? "- inválido"
+                  : ""
               }
             />
           </View>
@@ -64,5 +72,6 @@ const styles = StyleSheet.create({
   },
   row_button: {
     marginTop: 10,
+    justifyContent: "flex-end",
   },
 });

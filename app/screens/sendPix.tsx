@@ -2,8 +2,11 @@ import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 
 import FormTemplate from "@/components/FormTemplate";
+import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { isPixFormInvalid } from "@/utils/functions/form-validate/forms";
+import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { FormatDate } from "@/utils/functions/format-data";
 import { UsePix } from "@/utils/hooks/usePix";
 import { Pix } from "@/utils/interfaces/transaction";
@@ -15,18 +18,15 @@ export default function SendPix() {
 
   const [pixBody, setPixBody] = useState<Pix>(new Pix());
 
-  const updateBody = (key: keyof Pix, value: string) => {
-    const dateToday = new Date();
-    setPixBody({
-      ...pixBody,
-      [key]: key === "valor" ? Number(value) : value,
-      data: FormatDate(dateToday),
-      transId: uuid(),
-    });
-  };
-
   const saveTransaction = () => {
-    sendPix(pixBody);
+    if (!isPixFormInvalid(pixBody)) {
+      const dateToday = new Date();
+      sendPix({
+        ...pixBody,
+        data: FormatDate(dateToday),
+        transId: uuid(),
+      });
+    }
   };
 
   return (
@@ -38,15 +38,27 @@ export default function SendPix() {
               label="valor"
               placeholder="R$ 0"
               editable={true}
-              onChange={(e: any) => updateBody("valor", e)}
+              onChange={(e: any) => updateBody(pixBody, "valor", e, setPixBody)}
+              errorMessage={
+                pixBody.valor && isAmountInvalid(pixBody.valor)
+                  ? "- inválido"
+                  : ""
+              }
             />
           </View>
           <View style={styles.row}>
             <InputText
               label="chave pix (opcional)"
               placeholder="Chave PIX"
-              onChange={(e: any) => updateBody("chavePix", e)}
+              onChange={(e: any) =>
+                updateBody(pixBody, "chavePix", e, setPixBody)
+              }
               editable={true}
+              errorMessage={
+                pixBody.chavePix && String(pixBody.chavePix).length < 6
+                  ? "- insira mais de 6 dígitos"
+                  : ""
+              }
             />
           </View>
 
@@ -54,8 +66,15 @@ export default function SendPix() {
             <InputText
               label="destinatário"
               placeholder="Destinatário"
-              onChange={(e: any) => updateBody("destinatario", e)}
+              onChange={(e: any) =>
+                updateBody(pixBody, "destinatario", e, setPixBody)
+              }
               editable={true}
+              errorMessage={
+                pixBody.destinatario && String(pixBody.destinatario).length < 3
+                  ? "- insira mais de 3 dígitos"
+                  : ""
+              }
             />
           </View>
 
@@ -63,13 +82,20 @@ export default function SendPix() {
             <InputText
               label="descrição (opcional)"
               placeholder="Descrição..."
-              onChange={(e: any) => updateBody("descricao", e)}
+              onChange={(e: any) =>
+                updateBody(pixBody, "descricao", e, setPixBody)
+              }
               editable={true}
+              errorMessage={
+                pixBody.descricao && String(pixBody.descricao).length < 3
+                  ? "- insira mais de 3 dígitos"
+                  : ""
+              }
             />
           </View>
           <View style={[styles.row, styles.row_button]}>
             <Button
-              disabled={false}
+              disabled={isPixFormInvalid(pixBody)}
               name="Confirmar"
               onClick={saveTransaction}
             />
@@ -91,5 +117,6 @@ const styles = StyleSheet.create({
   },
   row_button: {
     marginTop: 10,
+    justifyContent: "flex-end",
   },
 });

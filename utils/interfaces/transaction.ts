@@ -16,7 +16,7 @@ export enum TransPeriod {
 export class Ted {
   transId?: string;
   data?: string;
-  valor?: number;
+  valor?: number = 0;
   cpfDestinatario?: string;
   numConta?: number;
   agencia?: string;
@@ -28,17 +28,17 @@ export class Ted {
 export class Pix {
   transId?: string;
   data?: string;
-  valor?: number | null;
+  valor?: number = 0;
   descricao?: string;
   chavePix?: string;
-  destinatario?: string; // nome
+  destinatario?: string = ""; // nome
   tipo: TransacationTypes.PIX = TransacationTypes.PIX;
   file?: any;
 }
 
 export class Loan {
   transId?: string;
-  valor?: number; // valor do empréstimo
+  valor: number = 0; // valor do empréstimo
   data?: string;
   aberto?: boolean;
   tipo?: TransacationTypes.EMPRESTIMO = TransacationTypes.EMPRESTIMO;
@@ -49,7 +49,7 @@ export class Loan {
 
 export class Deposito {
   transId?: string;
-  valor?: number;
+  valor: number = 0;
   data?: string;
   tipo?: TransacationTypes.DEPOSITO = TransacationTypes.DEPOSITO;
   file?: any;
