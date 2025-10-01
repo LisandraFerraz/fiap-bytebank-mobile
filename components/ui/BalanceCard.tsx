@@ -1,14 +1,24 @@
 import { useAuth } from "@/contex/AuthContext";
 import { StyleVariables } from "@/utils/constants/Colors";
-import { useState } from "react";
+import { UseBank } from "@/utils/hooks/useBank";
+import { BankAccount } from "@/utils/interfaces/bank-account";
+import { useEffect, useState } from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Divisor from "./Divisor";
 
 export default function BalanceCard() {
   const { user } = useAuth();
+  const { getBankAccountData } = UseBank();
 
   const [valueHidden, setValueHidden] = useState<boolean>(false);
+  const [bankAccInfo, setBankAccInfo] = useState<BankAccount | null>();
+
+  useEffect(() => {
+    getBankAccountData().then((res) => {
+      if (res) setBankAccInfo(res.data);
+    });
+  }, []);
 
   return (
     <SafeAreaView edges={["left", "right"]} style={styles.container}>
@@ -31,7 +41,7 @@ export default function BalanceCard() {
           </Text>
           <View>
             <Text style={styles.cardBoldText}>
-              {valueHidden ? "*****" : "R$ 1300"}
+              {valueHidden ? "*****" : "R$ " + bankAccInfo?.saldo}
             </Text>
             {/* <Button title="x" onPress={() => setValueHidden(!valueHidden)} /> */}
           </View>

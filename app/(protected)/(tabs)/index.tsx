@@ -17,11 +17,14 @@ export default function HomeScreen() {
   const [transactions, setTransactions] = useState<any[] | undefined>([]);
 
   useEffect(() => {
-    listAllTransactions().then((res) => {
-      const data = res.slice(0, 3);
-      setTransactions(data);
-    });
+    listTransactions();
   }, []);
+
+  const listTransactions = () => {
+    listAllTransactions({ itemsPage: 3, currentPage: 1 }).then((res) => {
+      setTransactions(res.data.transactions);
+    });
+  };
 
   if (!isAuthenticated) return <SignUp />;
 

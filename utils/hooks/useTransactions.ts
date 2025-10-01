@@ -3,7 +3,13 @@ import { UseBank } from "./useBank";
 export const UseTransactions = () => {
   const { getBankAccountData } = UseBank();
 
-  const listAllTransactions = async (): Promise<any> => {
+  const listAllTransactions = async ({
+    itemsPage,
+    currentPage,
+  }: {
+    itemsPage: number;
+    currentPage: number;
+  }): Promise<any> => {
     try {
       const data = await getBankAccountData();
 
@@ -22,8 +28,25 @@ export const UseTransactions = () => {
         ...depositos,
       ];
 
+      const totalItems = transactionsList.length;
+      const items = Number(itemsPage) || Number(totalItems);
+      const page = Number(currentPage) || 1;
+
+      const inicio = items * (page - 1);
+      const fim = inicio + items;
+
+      const transactions = transactionsList.slice(inicio, fim);
+
+      const paginacao = {
+        totalItems: totalItems,
+        itemsPage: items,
+        currentPage: page,
+      };
+
       console.log("UseTransactions :: listAllTransactions SUCESSO ");
-      return transactionsList;
+      return {
+        data: { transactions, paginacao },
+      };
     } catch (error) {
       console.error("UseTransactions :: listAllTransactions ERROR ", error);
       return null;

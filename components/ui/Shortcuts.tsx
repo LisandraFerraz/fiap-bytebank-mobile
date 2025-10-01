@@ -38,6 +38,7 @@ export default function Shortcuts() {
             cardTxt={sc.title}
             onPress={() => router.push(sc.url as any)}
             key={index}
+            extraStyle={{ elevation: 1 }}
           />
         ))}
       </View>

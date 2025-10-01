@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(userData as UserData);
         });
 
-        console.log("AuthProvider :: [LOGIN] - login com sucesso ");
+        console.log("AuthProvider :: [LOGIN] - login com sucesso ", user);
         setIsAuthenticated(true);
         router.replace("/");
       });

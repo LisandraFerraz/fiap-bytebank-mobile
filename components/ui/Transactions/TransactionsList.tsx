@@ -10,9 +10,11 @@ import Transaction from "./Transaction";
 export default function TransactionsList({
   data,
   hideLink,
+  children,
 }: {
   data: any[] | undefined;
   hideLink?: boolean;
+  children?: React.ReactNode;
 }) {
   const [isModalShown, setIsModalShown] = useState<boolean>(true);
   const [dataModal, setDataModal] = useState<any>();
@@ -40,9 +42,15 @@ export default function TransactionsList({
         {data?.length ? (
           <>
             <View style={styles.text_group}>
-              <ThemedText type="defaultSemiBold">Extrato</ThemedText>
+              <ThemedText
+                style={children ? { marginBottom: 15 } : ""}
+                type="defaultSemiBold"
+              >
+                Extrato
+              </ThemedText>
               <ExtratoLink />
             </View>
+            {children}
             {data?.map((ts: any, index: any) => (
               <React.Fragment key={index}>
                 <View style={styles.cards_container}>

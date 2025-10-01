@@ -1,7 +1,9 @@
 import { Card } from "@/components/ui/Card";
+import { Paginator } from "@/components/ui/Paginator";
 import TransactionsList from "@/components/ui/Transactions/TransactionsList";
 import { StyleVariables } from "@/utils/constants/Colors";
 import { UseTransactions } from "@/utils/hooks/useTransactions";
+import { Pagination } from "@/utils/interfaces/pagination";
 import { TransacationTypes } from "@/utils/interfaces/transaction";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -17,6 +19,7 @@ export default function Extrato() {
   const [transactions, setTransactions] = useState<any[] | undefined>([]);
   const [activeFilters, setActiveFilters] = useState<any[]>([]);
   const [filteredTrans, setFilteredTrans] = useState<any[]>([]);
+  const [pagination, setPagination] = useState<Pagination>(new Pagination());
 
   const filtersBtn: IFilters[] = [
     {
@@ -38,11 +41,16 @@ export default function Extrato() {
   ];
 
   useEffect(() => {
-    listAllTransactions().then((res) => {
-      setTransactions(res);
-      setFilteredTrans(res);
-    });
+    listTransactions(1);
   }, []);
+
+  const listTransactions = (page: number) => {
+    listAllTransactions({ itemsPage: 5, currentPage: page }).then((res) => {
+      setTransactions(res.data.transactions);
+      setFilteredTrans(res.data.transactions);
+      setPagination(res.data.paginacao);
+    });
+  };
 
   const handleApplyTypeFilter = (
     ft: keyof typeof TransacationTypes | string
@@ -113,39 +121,56 @@ export default function Extrato() {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={styles.cardsContainer}>
-          {filtersBtn.map((ft: IFilters, index: any) => (
-            <Card
-              extraStyle={
-                isFilterActive(ft.type) ? styles.activeFilter : styles.filter
-              }
-              cardTxt={ft.title}
-              onPress={() => handleApplyTypeFilter(ft.type)}
-              key={index}
-            />
-          ))}
-        </View>
-        <View>
-          <View style={styles.cardsContainer}>
-            <Card
-              extraStyle={[
-                isFilterActive("recente") ? styles.activeFilter : styles.filter,
-                { borderRadius: 100 },
-              ]}
-              cardTxt="Mais recente"
-              onPress={() => handleApplyDataFilter("recente")}
-            />
-            <Card
-              extraStyle={[
-                isFilterActive("antigo") ? styles.activeFilter : styles.filter,
-                { borderRadius: 100 },
-              ]}
-              cardTxt="Mais antigo"
-              onPress={() => handleApplyDataFilter("antigo")}
-            />
+        <TransactionsList hideLink={true} data={filteredTrans}>
+          <View style={{ gap: 10 }}>
+            <View style={styles.filtersContainer}>
+              {filtersBtn.map((ft: IFilters, index: any) => (
+                <Card
+                  extraStyle={
+                    isFilterActive(ft.type)
+                      ? styles.activeFilter
+                      : styles.filter
+                  }
+                  cardTxt={ft.title}
+                  onPress={() => handleApplyTypeFilter(ft.type)}
+                  key={index}
+                />
+              ))}
+            </View>
+            <View>
+              <View style={styles.filtersContainer}>
+                <Card
+                  extraStyle={[
+                    isFilterActive("recente")
+                      ? styles.activeFilter
+                      : styles.filter,
+                    { borderRadius: 100 },
+                  ]}
+                  cardTxt="Mais recente"
+                  onPress={() => handleApplyDataFilter("recente")}
+                />
+                <Card
+                  extraStyle={[
+                    isFilterActive("antigo")
+                      ? styles.activeFilter
+                      : styles.filter,
+                    { borderRadius: 100 },
+                  ]}
+                  cardTxt="Mais antigo"
+                  onPress={() => handleApplyDataFilter("antigo")}
+                />
+              </View>
+            </View>
           </View>
+        </TransactionsList>
+        <View style={styles.paginator}>
+          <Paginator
+            currentPage={pagination.currentPage}
+            itemsPage={pagination.itemsPage}
+            totalItems={pagination.totalItems}
+            nextPage={(page) => listTransactions(page)}
+          />
         </View>
-        <TransactionsList hideLink={true} data={filteredTrans} />
       </ScrollView>
     </View>
   );
@@ -158,17 +183,19 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 15,
   },
-
-  cardsContainer: {
+  filtersContainer: {
     display: "flex",
     flexDirection: "row",
     gap: 10,
-    marginBottom: 15,
   },
   activeFilter: {
     backgroundColor: StyleVariables.color.green_faded,
   },
   filter: {
     backgroundColor: StyleVariables.color.soft_transparency,
+  },
+  paginator: {
+    marginVertical: 25,
+    alignSelf: "center",
   },
 });
