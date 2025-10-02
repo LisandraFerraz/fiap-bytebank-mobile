@@ -1,6 +1,6 @@
 import { StyleVariables } from "@/utils/constants/Colors";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { ThemedText } from "./ThemedText";
 
 export default function FormTemplate({
@@ -11,18 +11,22 @@ export default function FormTemplate({
   title: string;
 }) {
   return (
-    <View style={styles.container}>
-      <ThemedText type="title">{title}</ThemedText>
-      {children}
-    </View>
+    <ScrollView style={styles.scroll_container}>
+      <View style={styles.container}>
+        <ThemedText type="title">{title}</ThemedText>
+        {children}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scroll_container: {
     flex: 1,
-    gap: 25,
-    padding: 15,
     backgroundColor: StyleVariables.color.white_default,
+  },
+  container: {
+    padding: 15,
+    gap: 25,
   },
 });

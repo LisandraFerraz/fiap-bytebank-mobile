@@ -3,8 +3,10 @@ import { v4 as uuid } from "uuid";
 
 import FormTemplate from "@/components/FormTemplate";
 import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
+import { AttachBtn } from "@/components/ui/AttachBtn";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { handleAttachImg } from "@/utils/functions/attach-file";
 import { isTedFormInvalid } from "@/utils/functions/form-validate/forms";
 import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { FormatDate } from "@/utils/functions/format-data";
@@ -33,6 +35,9 @@ export default function SendTED() {
     <>
       <FormTemplate title="Registrar tranferência bancária">
         <View style={styles.container}>
+          <View style={styles.row}>
+            <AttachBtn onPress={() => handleAttachImg(setTEDBody, tedBody)} />
+          </View>
           <View style={styles.row}>
             <InputText
               label="valor"
@@ -117,7 +122,6 @@ export default function SendTED() {
               }
             />
           </View>
-
           <View style={[styles.row, styles.row_button]}>
             <Button
               disabled={isTedFormInvalid(tedBody)}

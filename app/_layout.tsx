@@ -1,7 +1,7 @@
 import { AuthProvider } from "@/contex/AuthContext";
+import { LoaderProvider } from "@/contex/LoaderContext";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 export default function RootLayout() {
@@ -17,11 +17,12 @@ export default function RootLayout() {
   return (
     <>
       <AuthProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
-          <Stack.Screen />
-        </Stack>
-        <StatusBar style="auto" />
+        <LoaderProvider>
+          <Stack>
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(protected)" />
+          </Stack>
+        </LoaderProvider>
       </AuthProvider>
     </>
   );

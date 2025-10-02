@@ -9,13 +9,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { updateBody } from "./utils/update-body-func";
 
-export default function EditLoanForm({
-  data,
-  newFile,
-}: {
-  data: Loan;
-  newFile: any;
-}) {
+export default function EditLoanForm({ data }: { data: Loan }) {
   const { updateLoan, deleteLoan } = useLoan();
 
   const [loanBody, setLoanBody] = useState<Loan>(data);

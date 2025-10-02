@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/Card";
 import { Paginator } from "@/components/ui/Paginator";
 import TransactionsList from "@/components/ui/Transactions/TransactionsList";
 import { StyleVariables } from "@/utils/constants/Colors";
+import { useLoader } from "@/utils/hooks/useLoader";
 import { UseTransactions } from "@/utils/hooks/useTransactions";
 import { Pagination } from "@/utils/interfaces/pagination";
 import { TransacationTypes } from "@/utils/interfaces/transaction";
@@ -15,6 +16,7 @@ interface IFilters {
 
 export default function Extrato() {
   const { listAllTransactions } = UseTransactions();
+  const { showLoader, hideLoader } = useLoader();
 
   const [transactions, setTransactions] = useState<any[] | undefined>([]);
   const [activeFilters, setActiveFilters] = useState<any[]>([]);
@@ -45,10 +47,12 @@ export default function Extrato() {
   }, []);
 
   const listTransactions = (page: number) => {
+    showLoader();
     listAllTransactions({ itemsPage: 5, currentPage: page }).then((res) => {
       setTransactions(res.data.transactions);
       setFilteredTrans(res.data.transactions);
       setPagination(res.data.paginacao);
+      hideLoader();
     });
   };
 
@@ -122,7 +126,7 @@ export default function Extrato() {
     <View style={styles.container}>
       <ScrollView>
         <TransactionsList hideLink={true} data={filteredTrans}>
-          <View style={{ gap: 10 }}>
+          <View style={{ gap: 10, paddingBottom: 15 }}>
             <View style={styles.filtersContainer}>
               {filtersBtn.map((ft: IFilters, index: any) => (
                 <Card
@@ -163,6 +167,7 @@ export default function Extrato() {
             </View>
           </View>
         </TransactionsList>
+
         <View style={styles.paginator}>
           <Paginator
             currentPage={pagination.currentPage}

@@ -3,8 +3,10 @@ import { v4 as uuid } from "uuid";
 
 import FormTemplate from "@/components/FormTemplate";
 import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
+import { AttachBtn } from "@/components/ui/AttachBtn";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { handleAttachImg } from "@/utils/functions/attach-file";
 import { FormatDate } from "@/utils/functions/format-data";
 import { UseDeposit } from "@/utils/hooks/useDeposit";
 import { Deposito } from "@/utils/interfaces/transaction";
@@ -30,6 +32,11 @@ export default function SendDeposit() {
       <FormTemplate title="Adicionar dinheiro ">
         <View style={styles.container}>
           <View style={styles.row}>
+            <AttachBtn
+              onPress={() => handleAttachImg(setDepositBody, depositBody)}
+            />
+          </View>
+          <View style={styles.row}>
             <InputText
               label="valor"
               placeholder="R$ 0"
@@ -39,6 +46,7 @@ export default function SendDeposit() {
               }
             />
           </View>
+
           <View style={[styles.row, styles.row_button]}>
             <Button disabled={false} name="Confirmar" onClick={saveDeposit} />
           </View>

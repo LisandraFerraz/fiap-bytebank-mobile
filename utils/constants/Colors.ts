@@ -32,7 +32,7 @@ export const StyleVariables = {
     grey_highlight: "#637081",
     sogrey_highlight: "#d9d9d9",
 
-    red_faded: "#f7a399",
+    red_faded: "#fad3cfff",
     green_faded: "#d3eef3",
     grey_faded: "#7c98b3",
     sogrey_faded: "#ebebeb",

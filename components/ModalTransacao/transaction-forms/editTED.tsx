@@ -8,13 +8,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { updateBody } from "./utils/update-body-func";
 
-export default function EditTEDForm({
-  data,
-  newFile,
-}: {
-  data: Ted;
-  newFile: any;
-}) {
+export default function EditTEDForm({ data }: { data: Ted }) {
   const { updateTED, deleteTed } = UseTed();
 
   const [tedBody, setTEDBody] = useState<Ted>(data);

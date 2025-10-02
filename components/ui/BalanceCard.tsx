@@ -2,11 +2,17 @@ import { useAuth } from "@/contex/AuthContext";
 import { StyleVariables } from "@/utils/constants/Colors";
 import { UseBank } from "@/utils/hooks/useBank";
 import { BankAccount } from "@/utils/interfaces/bank-account";
+import Entypo from "@expo/vector-icons/Entypo";
 import { useEffect, useState } from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Divisor from "./Divisor";
-
 export default function BalanceCard() {
   const { user } = useAuth();
   const { getBankAccountData } = UseBank();
@@ -18,7 +24,7 @@ export default function BalanceCard() {
     getBankAccountData().then((res) => {
       if (res) setBankAccInfo(res.data);
     });
-  }, []);
+  }, [getBankAccountData]);
 
   return (
     <SafeAreaView edges={["left", "right"]} style={styles.container}>
@@ -39,11 +45,17 @@ export default function BalanceCard() {
           >
             Saldo
           </Text>
-          <View>
+          <View style={styles.card_txt_group}>
             <Text style={styles.cardBoldText}>
               {valueHidden ? "*****" : "R$ " + bankAccInfo?.saldo}
             </Text>
-            {/* <Button title="x" onPress={() => setValueHidden(!valueHidden)} /> */}
+            <Pressable onPress={() => setValueHidden(!valueHidden)}>
+              <Entypo
+                name={valueHidden ? "eye-with-line" : "eye"}
+                size={24}
+                color={StyleVariables.color.grey_highlight}
+              />
+            </Pressable>
           </View>
         </View>
       </ImageBackground>
@@ -61,6 +73,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     overflow: "hidden",
+  },
+  card_txt_group: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   titleCard: {
     fontSize: 22,

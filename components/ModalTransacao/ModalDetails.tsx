@@ -15,28 +15,15 @@ export default function ModalTransactionDetails({
   data: transacao;
   onClose: () => void;
 }) {
-  //   useEffect(() => {
-  //     console.log(data.tipo);
-  //   });
-
   const [modalData, setModalData] = useState<any>(data);
-  const [newFIle, setNewFile] = useState<boolean>(false);
 
   const checkFormType = (type: TransacationTypes) => {
     const getComponent: { [key: string]: ReactNode } = {
-      [TransacationTypes.DEPOSITO]: (
-        <EditDepositoForm data={modalData} newFile={newFIle} />
-      ),
+      [TransacationTypes.DEPOSITO]: <EditDepositoForm data={modalData} />,
 
-      [TransacationTypes.EMPRESTIMO]: (
-        <EditLoanForm data={modalData} newFile={newFIle} />
-      ),
-      [TransacationTypes.TED]: (
-        <EditTEDForm data={modalData} newFile={newFIle} />
-      ),
-      [TransacationTypes.PIX]: (
-        <EditPixForm data={modalData} newFile={newFIle} />
-      ),
+      [TransacationTypes.EMPRESTIMO]: <EditLoanForm data={modalData} />,
+      [TransacationTypes.TED]: <EditTEDForm data={modalData} />,
+      [TransacationTypes.PIX]: <EditPixForm data={modalData} />,
     };
 
     return getComponent[type];

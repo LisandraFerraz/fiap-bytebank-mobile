@@ -9,13 +9,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { updateBody } from "./utils/update-body-func";
 
-export default function EditDepositoForm({
-  data,
-  newFile,
-}: {
-  data: Deposito;
-  newFile: any;
-}) {
+export default function EditDepositoForm({ data }: { data: Deposito }) {
   const { updateDeposit, deleteDeposit } = UseDeposit();
 
   const [depositBody, setDepositBody] = useState<Deposito>(data);
@@ -49,7 +43,7 @@ export default function EditDepositoForm({
       <View style={[styles.row, styles.row_button]}>
         <Button disabled={false} name="Excluir" onClick={handleDelete} />
         <Button
-          disabled={isAmountInvalid(depositBody.valor) && !newFile}
+          disabled={isAmountInvalid(depositBody.valor)}
           name="Confirmar"
           onClick={sendUpdatedPix}
         />

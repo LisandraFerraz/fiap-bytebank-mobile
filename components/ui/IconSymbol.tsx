@@ -24,6 +24,9 @@ const MAPPING = {
   "0.square": "receipt",
   "arrow.left": "arrow-left",
   "arrow.right": "arrow-right",
+  "arrow.up": "arrow-circle-up",
+  "arrow.down": "arrow-circle-down",
+  "eye.slash": "disabled-visible",
 } as IconMapping;
 
 /**

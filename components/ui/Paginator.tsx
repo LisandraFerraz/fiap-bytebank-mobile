@@ -23,6 +23,7 @@ export const Paginator = ({
   return (
     <View style={styles.paginator_container}>
       <Pressable
+        disabled={currentPage === 1}
         style={styles.default}
         onPress={() => (totalItems > 1 ? nextPage!(currentPage - 1) : "")}
       >
@@ -44,6 +45,7 @@ export const Paginator = ({
         </Pressable>
       ))}
       <Pressable
+        disabled={currentPage === Math.ceil(totalItems / itemsPage)}
         style={styles.default}
         onPress={() => (totalItems > 1 ? nextPage!(currentPage + 1) : "")}
       >

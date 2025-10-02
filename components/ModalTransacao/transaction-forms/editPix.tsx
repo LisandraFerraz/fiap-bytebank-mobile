@@ -10,13 +10,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { updateBody } from "./utils/update-body-func";
 
-export default function EditPixForm({
-  data,
-  newFile,
-}: {
-  data: Pix;
-  newFile: any;
-}) {
+export default function EditPixForm({ data }: { data: Pix }) {
   const { updatePix, deletePix } = UsePix();
 
   const [pixBody, setPixBody] = useState<Pix>(data);

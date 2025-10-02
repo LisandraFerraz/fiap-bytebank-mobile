@@ -3,8 +3,10 @@ import { v4 as uuid } from "uuid";
 
 import FormTemplate from "@/components/FormTemplate";
 import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
+import { AttachBtn } from "@/components/ui/AttachBtn";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { handleAttachImg } from "@/utils/functions/attach-file";
 import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { FormatDate } from "@/utils/functions/format-data";
 import { useLoan } from "@/utils/hooks/useLoan";
@@ -32,6 +34,9 @@ export default function SendLoan() {
     <>
       <FormTemplate title="Registrar empréstimo">
         <View style={styles.container}>
+          <View style={styles.row}>
+            <AttachBtn onPress={() => handleAttachImg(setLoanBody, loanBody)} />
+          </View>
           <View style={styles.row}>
             <InputText
               label="valor"

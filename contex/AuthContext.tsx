@@ -75,6 +75,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     auth.signOut();
     console.log("AuthProvider :: Usuário deslogado");
+    router.replace("/login");
     setUser(null);
     setIsAuthenticated(false);
   };

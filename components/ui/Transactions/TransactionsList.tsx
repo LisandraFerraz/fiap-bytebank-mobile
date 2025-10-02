@@ -42,12 +42,9 @@ export default function TransactionsList({
         {data?.length ? (
           <>
             <View style={styles.text_group}>
-              <ThemedText
-                style={children ? { marginBottom: 15 } : ""}
-                type="defaultSemiBold"
-              >
-                Extrato
-              </ThemedText>
+              {!children && (
+                <ThemedText type="defaultSemiBold">Extrato</ThemedText>
+              )}
               <ExtratoLink />
             </View>
             {children}

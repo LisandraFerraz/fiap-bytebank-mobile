@@ -1,5 +1,6 @@
 import { StyleVariables } from "@/utils/constants/Colors";
 import { UseCharts } from "@/utils/hooks/useCharts";
+import { useLoader } from "@/utils/hooks/useLoader";
 import { IChart } from "@/utils/interfaces/pie-chart";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -8,13 +9,15 @@ import { ThemedText } from "../ThemedText";
 
 export const ExpensesChart = () => {
   const { listChartData } = UseCharts();
+  const { showLoader, hideLoader } = useLoader();
 
   const [chartData, setChartData] = useState<IChart[]>([]);
 
   useEffect(() => {
+    showLoader();
     listChartData().then((res) => {
       setChartData(res);
-      console.log("ExpensesChart :: listChartData ", res);
+      hideLoader();
     });
   }, []);
 

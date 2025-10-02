@@ -3,18 +3,22 @@ import { v4 as uuid } from "uuid";
 
 import FormTemplate from "@/components/FormTemplate";
 import { updateBody } from "@/components/ModalTransacao/transaction-forms/utils/update-body-func";
+import { AttachBtn } from "@/components/ui/AttachBtn";
 import Button from "@/components/ui/Button";
 import InputText from "@/components/ui/InputText";
+import { pickImage } from "@/utils/functions/attach-file";
 import { isPixFormInvalid } from "@/utils/functions/form-validate/forms";
 import { isAmountInvalid } from "@/utils/functions/form-validate/valor-validate";
 import { FormatDate } from "@/utils/functions/format-data";
 import { UsePix } from "@/utils/hooks/usePix";
+import { UseSaveImg } from "@/utils/hooks/useSaveImg";
 import { Pix } from "@/utils/interfaces/transaction";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 export default function SendPix() {
   const { sendPix } = UsePix();
+  const { uploadImage } = UseSaveImg();
 
   const [pixBody, setPixBody] = useState<Pix>(new Pix());
 
@@ -29,10 +33,23 @@ export default function SendPix() {
     }
   };
 
+  const handleAttachImg = async () => {
+    console.log("hello");
+    const imgUrl = await pickImage();
+
+    if (imgUrl) {
+      const url = await uploadImage(imgUrl);
+      setPixBody({ ...pixBody, file: url });
+    }
+  };
+
   return (
     <>
       <FormTemplate title="Registrar PIX ">
         <View style={styles.container}>
+          <View style={styles.row}>
+            <AttachBtn onPress={() => handleAttachImg()} />
+          </View>
           <View style={styles.row}>
             <InputText
               label="valor"

@@ -38,7 +38,9 @@ export default function Login() {
           disabled={false}
           name="Entrar"
         />
-        <Link href={"/(auth)/signup"}>Não tem conta? Crie uma agora.</Link>
+        <Link style={styles.signup_link} href={"/(auth)/signup"}>
+          Não tem conta? Crie uma agora.
+        </Link>
       </View>
     </View>
   );
@@ -57,4 +59,5 @@ const styles = StyleSheet.create({
     gap: 15,
     height: 300,
   },
+  signup_link: { textAlign: "center", paddingVertical: 15 },
 });
