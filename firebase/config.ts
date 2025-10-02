@@ -10,13 +10,13 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAZxP78x_gBnGouPm2aH2nwkujLoIZMtFE",
-  authDomain: "fiap-backend-bytebank.firebaseapp.com",
-  projectId: "fiap-backend-bytebank",
-  storageBucket: "fiap-backend-bytebank.firebasestorage.app",
-  messagingSenderId: "498778251857",
-  appId: "1:498778251857:web:de33ea34bc323c8625ce70",
-  measurementId: "G-88CXHYTFST",
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+  measurementId: "",
 };
 
 let app: FirebaseApp;
